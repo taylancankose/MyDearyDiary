@@ -7,7 +7,8 @@ export const createDiary = async (req, res) => {
     const { date, title, content, userId, mood } = req.body;
     const userID = new mongoose.Types.ObjectId(req.user.userId); // String'i ObjectId'ye çevir
 
-    if (userId !== req.user.userId) return res.json({ asd: "sadas" });
+    if (userId !== req.user.userId)
+      return res.json({ error: "User does not match" });
 
     const anyDiaryAtThisDay = await Diary.findOne({
       date,
@@ -113,8 +114,8 @@ export const getAllDiaries = async (req, res) => {
 };
 
 export const getDiaryByDate = async (req, res) => {
-  const { date } = req.body;
-  console.log(date);
+  const { date } = req.params;
+  console.log(req.params);
 
   const userId = req.user.userId;
   const user = await User.findById({

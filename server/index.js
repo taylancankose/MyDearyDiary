@@ -6,6 +6,7 @@ import "./middleware/googleAuth.js";
 import passport from "passport";
 import express from "express";
 import "./db/index.js";
+import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
@@ -14,7 +15,12 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+const corsOption = {
+  origin: ["http://localhost:4000"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
+app.use(cors(corsOption));
 app.use(
   session({
     secret: process.env.SESSION_SECRET, // Oturum anahtarınızı buraya ekleyin
